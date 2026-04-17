@@ -1,0 +1,108 @@
+{
+  "tasks": [
+    {
+      "id": "ef2969ce-365a-47a9-b3ce-2ec2d0541ccd",
+      "key": "Task 4",
+      "summary": "Fix Responsive Layout Issues on Mobile",
+      "status": "Done",
+      "startDate": "2025-05-02",
+      "dueDate": "2025-07-22",
+      "priority": "High",
+      "assignee": {
+        "name": "Yash Rawat",
+        "avatar": "https://i.pravatar.cc/150?u=Yash Rawat"
+      }
+    },
+    {
+      "id": "35ebdc85-5836-4a4e-9a7b-7099ffe9402c",
+      "key": "task 2",
+      "summary": "Implement User Authentication with JWT",
+      "status": "In Progress",
+      "startDate": "2025-05-17",
+      "dueDate": "2025-09-30",
+      "priority": "Medium",
+      "assignee": {
+        "name": "Aagam Mehta",
+        "avatar": "https://i.pravatar.cc/150?u=Aagam Mehta"
+      }
+    },
+    {
+      "id": "0970905f-9630-46d9-9e1e-730c786baf71",
+      "key": "task 2",
+      "summary": "Implement User Authentication with JWT",
+      "status": "In Progress",
+      "startDate": "2025-01-17",
+      "dueDate": "2025-09-30",
+      "priority": "Low",
+      "assignee": {
+        "name": "keithi shah",
+        "avatar": "https://i.pravatar.cc/150?u=keithi shah"
+      }
+    },
+    {
+      "id": "8d16fe47-398a-43ff-b421-ce2c8ff0ff82",
+      "key": "task 2",
+      "summary": "Implement User Authentication with JWT",
+      "status": "To Do",
+      "startDate": "2025-01-17",
+      "dueDate": "2025-09-30",
+      "priority": "High",
+      "assignee": {
+        "name": "keithi shah",
+        "avatar": "https://i.pravatar.cc/150?u=keithi shah"
+      }
+    },
+    {
+      "id": "0bd2b58b-e68c-40f6-be50-04b9cd3248f9",
+      "key": "task 2",
+      "summary": "Implement User Authentication with JWT",
+      "status": "Done",
+      "startDate": "2025-01-17",
+      "dueDate": "2025-09-30",
+      "priority": "Medium",
+      "assignee": {
+        "name": "keithi shah",
+        "avatar": "https://i.pravatar.cc/150?u=keithi shah"
+      }
+    },
+    {
+      "id": "92b6d3f3-a9c8-48c6-9412-fcc55f97d7a9",
+      "key": "task 2",
+      "summary": "Implement User Authentication with JWT",
+      "status": "In Progress",
+      "startDate": "2025-01-17",
+      "dueDate": "2025-09-30",
+      "priority": "Medium",
+      "assignee": {
+        "name": "keithi shah",
+        "avatar": "https://i.pravatar.cc/150?u=keithi shah"
+      }
+    },
+    {
+      "id": "9e7c7758-98ce-40f0-81fb-acb8e779b589",
+      "key": "task 2",
+      "summary": "no",
+      "status": "To Do",
+      "startDate": "2026-02-11",
+      "dueDate": "2026-02-26",
+      "priority": "Medium",
+      "assignee": {
+        "name": "sakshi",
+        "avatar": "https://i.pravatar.cc/150?u=sakshi"
+      }
+    },
+    {
+      "id": "7224e88a-7da8-4137-9577-32703512ec1c",
+      "key": "task 2",
+      "summary": "no",
+      "status": "To Do",
+      "startDate": "2026-02-11",
+      "dueDate": "2026-02-26",
+      "priority": "Medium",
+      "assignee": {
+        "name": "sakshi",
+        "avatar": "https://i.pravatar.cc/150?u=sakshi"
+      }
+    }
+  ]
+}

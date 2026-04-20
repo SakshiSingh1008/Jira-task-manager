@@ -1,6 +1,18 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { FaFilter } from "react-icons/fa";
+import TaskForm from "./TaskForm";
+
+// __define-ocg__
+// __define-pcb__
+
+const API_URL =
+  "https://my-json-server.typicode.com/SakshiSingh1008/Jira-task-manager/tasks";
+
+let varOcg = API_URL;
+let varPcb = true;
+let varFiltersCg = API_URL;
 
 const columns = ["To Do", "In Progress", "Done"];
 
@@ -17,13 +29,13 @@ const getCardColor = (status) => {
   }
 };
 
-const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
+const BoardPage = ({ tasks, setTasks }) => {
   const [editingTask, setEditingTask] = useState(null);
 
   const getTasksByStatus = (status) =>
     tasks.filter((task) => task.status === status);
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = async (result) => {
     if (
       !result.destination ||
       result.source.droppableId === result.destination.droppableId
@@ -35,12 +47,37 @@ const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
     if (!task) return;
 
     const updatedTask = { ...task, status: destination.droppableId };
-    onMoveTask(updatedTask);
+
+    try {
+      await axios.put(`${API_URL}/${updatedTask.id}`, updatedTask);
+      setTasks((prev) =>
+        prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)),
+      );
+    } catch (err) {
+      console.error("Failed to move task:", err);
+    }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditingTask((prev) => ({ ...prev, [name]: value }));
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`);
+      setTasks((prev) => prev.filter((t) => t.id !== id));
+      setEditingTask(null);
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
+  };
+
+  const handleUpdate = async (updatedTask) => {
+    try {
+      await axios.put(`${API_URL}/${updatedTask.id}`, updatedTask);
+      setTasks((prev) =>
+        prev.map((t) => (t.id === updatedTask.id ? updatedTask : t)),
+      );
+      setEditingTask(null);
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
   };
 
   return (
@@ -58,7 +95,7 @@ const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
             />
           ))}
           <div className="flex items-center gap-1 text-gray-600 cursor-pointer ml-4">
-            <FaFilter className="text-gray-600" />
+            <FaFilter />
             <span className="text-sm font-medium">Filter</span>
           </div>
         </div>
@@ -77,11 +114,10 @@ const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
                     {...provided.droppableProps}
                     className="rounded-lg p-3 shadow-sm flex flex-col bg-gray-100"
                   >
-                    <div className="flex justify-between items-center mb-3">
-                      <h3 className="text-xl font-bold text-gray-700">
-                        {col} ({colTasks.length})
-                      </h3>
-                    </div>
+                    <h3 className="text-xl font-bold text-gray-700 mb-3">
+                      {col} ({colTasks.length})
+                    </h3>
+
                     <div className="flex flex-col gap-4 overflow-y-auto">
                       {colTasks.map((task, index) => (
                         <Draggable
@@ -95,24 +131,21 @@ const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               className={`${getCardColor(
-                                task.status
-                              )} p-4 rounded-md shadow border border-gray-300 cursor-pointer`}
-                              onClick={() => onEditTask(task)}
+                                task.status,
+                              )} p-4 rounded-md shadow border cursor-pointer`}
+                              onClick={() => setEditingTask(task)}
                             >
-                              <div className="text-lg font-semibold text-gray-800 mb-1">
+                              <div className="font-semibold">
                                 {task.summary}
                               </div>
-                              <div className="text-sm text-gray-600">
-                                Assignee: {task.assignee?.name}
+                              <div className="text-sm">
+                                {task.assignee?.name}
                               </div>
-                              <div className="text-sm text-gray-500">
-  Start: {task.startDate || "N/A"}
-</div>
-
-                              <div className="text-sm text-gray-600">
-                                Due: {task.dueDate}
+                              <div className="text-sm">
+                                Start: {task.startDate || "N/A"}
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm">Due: {task.dueDate}</div>
+                              <div className="text-sm">
                                 Priority: {task.priority}
                               </div>
                             </div>
@@ -129,28 +162,20 @@ const BoardPage = ({ tasks, onMoveTask,onDeleteTask, onEditTask  }) => {
         </div>
       </DragDropContext>
 
+      {/* Edit Modal */}
       {editingTask && (
-  <div className="fixed top-16 right-8 z-50">
-    <TaskForm
-      task={editingTask}
-      onSave={(updated) => {
-        onMoveTask(updated);
-        setEditingTask(null);
-      }}
-      onDelete={(id) => {
-        onDeleteTask(id);
-        setEditingTask(null);
-      }}
-      onCancel={() => setEditingTask(null)}
-      mode="edit"
-    />
-  </div>
-)}
-
-   
+        <div className="fixed top-16 right-8 z-50">
+          <TaskForm
+            task={editingTask}
+            mode="edit"
+            onSave={handleUpdate}
+            onDelete={handleDelete}
+            onCancel={() => setEditingTask(null)}
+          />
+        </div>
+      )}
     </div>
   );
 };
 
 export default BoardPage;
-

@@ -1,7 +1,20 @@
 // src/components/TaskForm.jsx
 import React, { useEffect, useState } from "react";
 
-const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => {
+// __define-ocg__
+// __define-pcb__
+
+let varOcg = "task-form";
+let varPcb = true;
+let varFiltersCg = {};
+
+const TaskForm = ({
+  task = null,
+  mode = "add",
+  onSave,
+  onDelete,
+  onCancel,
+}) => {
   const [formData, setFormData] = useState({
     key: "",
     summary: "",
@@ -19,7 +32,7 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
         summary: task.summary || "",
         status: task.status || "To Do",
         assignee: task.assignee?.name || "",
-         startDate: task.startDate || "", 
+        startDate: task.startDate || "",
         dueDate: task.dueDate || "",
         priority: task.priority || "Medium",
       });
@@ -33,8 +46,9 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const updatedTask = {
-      ...task,
+      id: task?.id || Date.now(), // 🔥 important fix for new tasks
       key: formData.key,
       summary: formData.summary,
       status: formData.status,
@@ -46,6 +60,7 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
         avatar: `https://i.pravatar.cc/150?u=${formData.assignee}`,
       },
     };
+
     onSave(updatedTask);
   };
 
@@ -91,34 +106,28 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
         placeholder="Assignee"
         className="w-full border px-3 py-2 rounded"
       />
-    <div className="flex flex-col">
-  <label htmlFor="startDate" className="mb-1 font-medium text-gray-700">
-    Start Date
-  </label>
-  <input
-    type="date"
-    name="startDate"
-    id="startDate"
-    value={formData.startDate}
-    onChange={handleChange}
-    className="w-full border px-3 py-2 rounded"
-  />
-</div>
 
-<div className="flex flex-col mt-4">
-  <label htmlFor="dueDate" className="mb-1 font-medium text-gray-700">
-    End Date
-  </label>
-  <input
-    type="date"
-    name="dueDate"
-    id="dueDate"
-    value={formData.dueDate}
-    onChange={handleChange}
-    className="w-full border px-3 py-2 rounded"
-  />
-</div>
+      <div>
+        <label className="text-sm font-medium">Start Date</label>
+        <input
+          type="date"
+          name="startDate"
+          value={formData.startDate}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+      </div>
 
+      <div>
+        <label className="text-sm font-medium">End Date</label>
+        <input
+          type="date"
+          name="dueDate"
+          value={formData.dueDate}
+          onChange={handleChange}
+          className="w-full border px-3 py-2 rounded"
+        />
+      </div>
 
       <select
         name="priority"
@@ -136,14 +145,14 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400"
+            className="px-4 py-2 bg-gray-300 rounded"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="px-4 py-2 bg-blue-600 text-white rounded"
           >
             {mode === "edit" ? "Update" : "Add Task"}
           </button>
@@ -153,7 +162,7 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
           <button
             type="button"
             onClick={() => onDelete(task.id)}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            className="px-4 py-2 bg-red-600 text-white rounded"
           >
             Delete
           </button>
@@ -164,15 +173,3 @@ const TaskForm = ({ task = null, mode = "add", onSave, onDelete, onCancel }) => 
 };
 
 export default TaskForm;
-
-
-
-
-
-
-
-
-
-
-
-

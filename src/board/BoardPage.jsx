@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { FaFilter } from "react-icons/fa";
-import TaskForm from "./TaskForm";
+import TaskForm from "../pages/TaskForm";
 
 // __define-ocg__
 // __define-pcb__

@@ -12,16 +12,8 @@ import {
   Squares2X2Icon,
   CalendarIcon,
   ClockIcon,
-  DocumentTextIcon,
-  ChartBarIcon,
-  PlusCircleIcon,
-  Cog6ToothIcon,
-  ChatBubbleLeftRightIcon,
   FunnelIcon,
 } from "@heroicons/react/24/outline";
-
-// __define-ocg__
-// __define-pcb__
 
 const API_URL =
   "https://my-json-server.typicode.com/SakshiSingh1008/Jira-task-manager/tasks";
@@ -36,11 +28,6 @@ const navItems = [
   { name: "Board", icon: Squares2X2Icon },
   { name: "Calendar", icon: CalendarIcon },
   { name: "Timeline", icon: ClockIcon },
-  { name: "Form", icon: DocumentTextIcon },
-  { name: "Reports", icon: ChartBarIcon },
-  { name: "Add Item", icon: PlusCircleIcon },
-  { name: "Project Settings", icon: Cog6ToothIcon },
-  { name: "Give Feedback", icon: ChatBubbleLeftRightIcon },
 ];
 
 function Home() {
@@ -74,7 +61,9 @@ function Home() {
   const handleUpdate = async (task) => {
     try {
       await axios.put(`${API_URL}/${task.id}`, task);
+
       setTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
+
       setEditingTask(null);
       setShowAddForm(false);
     } catch (err) {
@@ -85,6 +74,7 @@ function Home() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
+
       setTasks((prev) => prev.filter((t) => t.id !== id));
     } catch (err) {
       console.error("Delete error:", err);
@@ -94,6 +84,7 @@ function Home() {
   const handleMoveTask = useCallback(async (task) => {
     try {
       await axios.put(`${API_URL}/${task.id}`, task);
+
       setTasks((prev) => prev.map((t) => (t.id === task.id ? task : t)));
     } catch (err) {
       console.error("Move error:", err);
@@ -127,7 +118,8 @@ function Home() {
             onClick={() => setFilterOpen(!filterOpen)}
             className="border px-3 py-1 rounded flex items-center gap-1"
           >
-            <FunnelIcon className="h-4 w-4" /> Filter
+            <FunnelIcon className="h-4 w-4" />
+            Filter
           </button>
         </div>
       </nav>
@@ -149,8 +141,10 @@ function Home() {
           </ul>
         </aside>
 
-        {/* Main */}
+        {/* Main Content */}
         <main className="w-3/4 p-6">
+          {activeView === "Summary" && <Summary tasks={tasks} />}
+
           {activeView === "List" && (
             <TaskTable
               tasks={tasks}
@@ -169,11 +163,10 @@ function Home() {
           {activeView === "Calendar" && <Calendar tasks={tasks} />}
 
           {activeView === "Timeline" && <TimelinePage tasks={tasks} />}
-
-          {activeView === "Summary" && <Summary tasks={tasks} />}
         </main>
       </div>
 
+      {/* Add / Edit Task Modal */}
       {(showAddForm || editingTask) && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/30">
           <div className="bg-white p-6 rounded w-[400px]">
